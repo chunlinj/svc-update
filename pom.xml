@@ -1,0 +1,219 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+
+	<groupId>com.daac</groupId>
+	<artifactId>svcupdater</artifactId>
+	<version>1.0</version>
+	<packaging>war</packaging>
+
+	<name>svcupdater</name>
+	<description>Demo project for Spring Boot</description>
+
+	<parent>
+		<groupId>org.springframework.boot</groupId>
+		<artifactId>spring-boot-starter-parent</artifactId>
+		<version>2.0.0.RELEASE</version>
+	</parent>
+
+	<properties>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+		<java.version>1.8</java.version>
+		<tomcat.version>8.5.20</tomcat.version>
+		<skipTests>true</skipTests>
+	</properties>
+
+	<dependencies>
+		<!-- 基础依赖-->
+		<dependency>
+			<groupId>com.zen.parking</groupId>
+			<artifactId>parking-bootstrap</artifactId>
+			<version>1.0-SNAPSHOT</version>
+		</dependency>
+		<!-- Configuration Annotation Proessor not found in classpath-->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-configuration-processor</artifactId>
+			<optional>true</optional>
+		</dependency>
+
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-web</artifactId>
+			<exclusions>
+		        <exclusion>
+		            <groupId>org.springframework.boot</groupId>
+		            <artifactId>spring-boot-starter-logging</artifactId>
+		        </exclusion>
+		    </exclusions>
+		</dependency>
+
+		<!-- https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter-log4j2 -->
+		<dependency>
+		    <groupId>org.springframework.boot</groupId>
+		    <artifactId>spring-boot-starter-log4j2</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-tomcat</artifactId>
+			<scope>provided</scope>
+		</dependency>
+		
+
+		
+		<!-- https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter-data-mongodb -->
+		<dependency>
+		    <groupId>org.springframework.boot</groupId>
+		    <artifactId>spring-boot-starter-data-mongodb</artifactId>
+		</dependency>
+		
+		<!-- https://mvnrepository.com/artifact/org.apache.commons/commons-io -->
+		<dependency>
+		    <groupId>org.apache.commons</groupId>
+		    <artifactId>commons-io</artifactId>
+		    <version>1.3.2</version>
+		</dependency>
+		
+		<!-- https://mvnrepository.com/artifact/com.alibaba/fastjson -->
+		<dependency>
+		    <groupId>com.alibaba</groupId>
+		    <artifactId>fastjson</artifactId>
+		    <version>1.2.47</version>
+		</dependency>
+		
+		<!-- https://mvnrepository.com/artifact/com.github.wvengen/proguard-maven-plugin -->
+		<dependency>
+		    <groupId>com.github.wvengen</groupId>
+		    <artifactId>proguard-maven-plugin</artifactId>
+		    <version>2.0.14</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.projectlombok</groupId>
+			<artifactId>lombok</artifactId>
+			<version>1.16.10</version>
+		</dependency>
+
+			<dependency>
+				<groupId>org.springframework.boot</groupId>
+				<artifactId>spring-boot-starter-data-mongodb</artifactId>
+			</dependency>
+
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-test</artifactId>
+			<scope>test</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>io.springfox</groupId>
+			<artifactId>springfox-swagger2</artifactId>
+			<version>2.8.0</version>
+		</dependency>
+		<dependency>
+			<groupId>io.springfox</groupId>
+			<artifactId>springfox-swagger-ui</artifactId>
+			<version>2.8.0</version>
+		</dependency>
+		<!--打包不包含tomcat-->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-tomcat</artifactId>
+			<!--打包的时候可以不用包进去，别的设施会提供。事实上该依赖理论上可以参与编译，测试，运行等周期。
+                相当于compile，但是打包阶段做了exclude操作-->
+			<scope>provided</scope>
+		</dependency>
+
+		<!-- bootstrap and jquery -->
+		<dependency>
+			<groupId>org.webjars</groupId>
+			<artifactId>jquery</artifactId>
+			<version>2.2.4</version>
+		</dependency>
+		<dependency>
+			<groupId>org.webjars</groupId>
+			<artifactId>bootstrap</artifactId>
+			<version>3.3.7</version>
+		</dependency>
+
+	</dependencies>
+
+	<build>
+        <plugins>
+            <plugin>
+                <groupId>com.github.wvengen</groupId>
+                <artifactId>proguard-maven-plugin</artifactId>
+                <version>2.0.7</version>
+                 <executions>  
+		              <execution>  
+		                  <phase>package</phase>  
+		                  <goals>  
+		                      <goal>proguard</goal>  
+		                  </goals>  
+		              </execution>  
+	          	</executions> 
+                <configuration>
+                    <injar>classes</injar>
+                    <attach>true</attach>
+                    <proguardInclude>${basedir}/proguard.conf</proguardInclude>
+                    <attachArtifactClassifier>pg</attachArtifactClassifier>
+                    <!-- attach 的作用是在 install 与 deploy 时将生成的 pg 文件也安装与部署 -->
+                    <outjar>${project.build.finalName}-pg</outjar>
+                    <options> <!-- 详细配置方式参考 ProGuard 官方文档 -->
+                        <!--<option>-dontobfuscate</option>-->
+                        <option>-ignorewarnings</option>
+                        <!--忽略所有告警-->
+                        <option>-dontshrink</option>
+                        <!--不做 shrink -->
+                        <option>-dontoptimize</option>
+                        <!--不做 optimize -->
+                        <option>-dontskipnonpubliclibraryclasses</option>
+                        <option>-dontskipnonpubliclibraryclassmembers</option>
+ 
+ 						<option>-repackageclasses com.daac.proguard</option>
+                        <!--平行包结构（重构包层次），所有混淆的类放在 pg 包下-->
+                        <option>-keep class **.package-info</option>
+                        <option>-keepattributes Exceptions,InnerClasses,Signature,SourceFile,LineNumberTable,*Annotation*</option>
+ 
+                        <!-- 以下为 Keep，哪些内容保持不变，因为有一些内容混淆后（a,b,c）导致反射或按类名字符串相关的操作失效 -->
+                    </options>
+                    <libs>
+                        <lib>${java.home}/lib/rt.jar</lib>
+                        <lib>${java.home}/lib/jsse.jar</lib>
+                    </libs>
+                </configuration>
+                <dependencies>
+                    <dependency>
+                        <groupId>net.sf.proguard</groupId>
+                        <artifactId>proguard-base</artifactId>
+                        <version>6.0.3</version>
+                    </dependency>
+                </dependencies>
+            	</plugin>
+			<plugin>
+				<groupId>org.springframework.boot</groupId>
+				<artifactId>spring-boot-maven-plugin</artifactId>
+			</plugin>
+
+            <!-- Maven assembly must be run after proguard obfuscation so it take already obfuscated files.-->
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>repackage</goal>
+                        </goals>
+                        <configuration>
+                            <mainClass>org.daac.DaacApplication</mainClass>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+		<finalName>svcupdater</finalName>
+    </build>
+</project>

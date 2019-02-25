@@ -1,0 +1,11 @@
+{
+  "versions": [
+    {
+      "version": "1.0.7",
+      "fileUrl": {
+        "device": "http://192.168.80.6:8443/repo/file/1.0.7/bin.tar.gz",
+        "service": "http://192.168.80.6:8443/repo/file/1.0.7/config.zip"
+      }
+    }
+  ]
+}
